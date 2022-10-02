@@ -1,4 +1,5 @@
-﻿using GeekSpot.Domain.Interfaces;
+﻿using GeekSpot.Domain.Entities;
+using GeekSpot.Domain.Interfaces;
 using GeekSpot.UI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -20,6 +21,8 @@ namespace GeekSpot.UI.Controllers
             var Posts = new IndexViewModel();
             Posts.Posts = await _blogRepository.GetAllAsync();
             Posts.PopularPosts = await _blogRepository.GetPopularPostsAsync(3);
+
+
             return View(Posts);
         }
 

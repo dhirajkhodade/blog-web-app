@@ -10,6 +10,9 @@ namespace GeekSpot.Domain.Entities
     public class ImageUri
     {
         public int Id { get; set; }
-        public string Uri { get; set; } = null!;
+        public string Uri { get; set; }
+
+        //Navigation props
+        public Post Post { get; set; }
     }
 }

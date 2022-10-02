@@ -19,4 +19,8 @@
     <ProjectReference Include="..\GeekSpot.Domain\GeekSpot.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

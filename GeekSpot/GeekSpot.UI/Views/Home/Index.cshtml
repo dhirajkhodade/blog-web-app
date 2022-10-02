@@ -3,24 +3,57 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!-- Page Content -->
+<!-- Banner Starts Here -->
+<div class="main-banner header-text">
+    <div class="container-fluid">
+        <div class="owl-banner owl-carousel">
+            @foreach (var post in Model.PopularPosts)
+            {
+                <div class="item">
+                    <img src="assets/images/banner-item-01.jpg" alt="">
+                    <div class="item-content">
+                        <div class="main-content">
+                            <div class="meta-category">
+                                <span>@post.Title</span>
+                            </div>
+                            @*<a href="post-details.html"><h4>Morbi dapibus condimentum</h4></a>*@
+                            <ul class="post-info">
+                                <li><a href="#">@($"{@post.Author.Name} {@post.Author.Surname}")</a></li>
+                                <li><a href="#">@post.PublishedOn</a></li>
+                                <li><a href="#">@($"{post.ReadCount} Views")</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="">
+
 
     @foreach (var post in Model.PopularPosts)
     {
-        <table>
+        <table border="1">
             <tr>
                 <th>Id</th>
                 <th>Title</th>
                 <th>Content</th>
                 <th>ReadCount</th>
+                <th>Author</th>
+                <th>Tag</th>
+                <th>Image</th>
             </tr>
             <tr>
                 <td>@post.Id</td>
                 <td>@post.Title</td>
                 <td>@post.Content</td>
                 <td>@post.ReadCount</td>
+                <td>@post.Author.Name</td>
+                <td>@post.Tags[0].Name</td>
+                <th>@post.Images[0].Uri</th>
             </tr>
         </table>
     }

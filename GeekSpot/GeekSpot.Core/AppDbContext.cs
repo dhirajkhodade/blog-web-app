@@ -15,5 +15,8 @@ namespace GeekSpot.Core
         }
 
         public DbSet<Post> Posts { get; set; }
+        public DbSet<Author> Authors { get; set; }
+        public DbSet<ImageUri> ImageUris { get; set; }
+        public DbSet<Tag> tags { get; set; }
     }
 }

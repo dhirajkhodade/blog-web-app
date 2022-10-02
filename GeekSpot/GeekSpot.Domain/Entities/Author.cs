@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace GeekSpot.Domain.Entities
 {
-    public class Tag
+    public class Author
     {
-        public int Id { get; set; } 
+        public int Id { get; set; }
         public string Name { get; set; }
-
-        //Navigation props
+        public string Surname { get; set; }
+        public string Description { get; set; }
+        //Nevigation props
         public List<Post> Posts { get; set; } = new List<Post>();
     }
 }
