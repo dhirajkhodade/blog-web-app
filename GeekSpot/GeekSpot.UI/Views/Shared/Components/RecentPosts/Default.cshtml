@@ -1,13 +1,12 @@
 ﻿@model RecentPostsViewModel
 
-
 <ul>
     @foreach (var post in Model.RecentPosts)
     {
         <li>
-            <a href="post-details.html">
+            <a href="@Url.Action("Post", "Blog" , new { id= post.Id })">
                 <h5>@post.Title</h5>
-                <span>May 31, 2020</span>
+                <span>@post.PublishedOn.ToString("MMM dd, yyyy")</span>
             </a>
         </li>
     }

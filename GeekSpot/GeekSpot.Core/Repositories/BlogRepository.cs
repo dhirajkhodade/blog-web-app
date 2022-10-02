@@ -32,7 +32,12 @@ namespace GeekSpot.Core.Repositories
 
         public async Task<IEnumerable<Post>> FindAsync(Expression<Func<Post, bool>> expression)
         {
-            return await _dbContext.Posts.Where(expression).ToListAsync();
+            return await _dbContext.Posts
+                .Include(post => post.Tags)
+                .Include(post => post.Images)
+                .Include(post => post.Author)
+                .Where(expression)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Post>> GetAllAsync()
@@ -46,7 +51,12 @@ namespace GeekSpot.Core.Repositories
 
         public async Task<Post?> GetByIdAsync(int id)
         {
-            return await _dbContext.Posts.FindAsync(id);
+            return await _dbContext.Posts
+                .Where(post => post.Id == id)
+                .Include(post => post.Tags)
+                .Include(post => post.Images)
+                .Include(post => post.Author)
+                .FirstOrDefaultAsync();
         }
 
         public async Task UpdateAsync(Post entity)
@@ -57,6 +67,11 @@ namespace GeekSpot.Core.Repositories
         public async Task<IEnumerable<Post>> GetPopularPostsAsync(int count)
         {
             return await _dbContext.Posts.OrderByDescending(p => p.ReadCount).Take(count).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Tag>> GettagsAsync()
+        {
+            return await _dbContext.tags.Distinct().ToListAsync();
         }
     }
 }

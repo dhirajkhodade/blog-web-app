@@ -1,0 +1,16 @@
+﻿@using GeekSpot.Domain.Entities
+@model IEnumerable<Tag>
+
+<div class="sidebar-item tags">
+    <div class="sidebar-heading">
+        <h2>Tag Clouds</h2>
+    </div>
+    <div class="content">
+        <ul>
+            @foreach (var tag in Model)
+            {
+                <li><a href="@Url.Action("GetPostsByTag", "Home" , new { name = tag.Name })">@tag.Name</a></li>
+            }
+        </ul>
+    </div>
+</div>

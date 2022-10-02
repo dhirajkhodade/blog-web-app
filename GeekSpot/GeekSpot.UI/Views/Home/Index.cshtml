@@ -15,12 +15,14 @@
                     <div class="item-content">
                         <div class="main-content">
                             <div class="meta-category">
+                                <a href="@Url.Action("Post", "Blog" , new { id= post.Id })">
                                 <span>@post.Title</span>
+                                </a>
                             </div>
                             @*<a href="post-details.html"><h4>Morbi dapibus condimentum</h4></a>*@
                             <ul class="post-info">
                                 <li><a href="#">@($"{@post.Author.Name} {@post.Author.Surname}")</a></li>
-                                <li><a href="#">@post.PublishedOn</a></li>
+                                <li><a href="#">@post.PublishedOn.ToString("MMM dd, yyyy")</a></li>
                                 <li><a href="#">@($"{post.ReadCount} Views")</a></li>
                             </ul>
                         </div>
@@ -44,7 +46,7 @@
                                         <img src="assets/images/blog-post-01.jpg" alt="">
                                     </div>
                                     <div class="down-content">
-                                        <a href="post-details.html">
+                                        <a href="@Url.Action("Post", "Blog" , new { id= post.Id })">
                                             <span>@post.Title</span>
                                         </a>
                                         <ul class="post-info">
@@ -101,22 +103,7 @@
                             </div>
                         </div>
                         <div class="col-lg-12">
-                            <div class="sidebar-item tags">
-                                <div class="sidebar-heading">
-                                    <h2>Tag Clouds</h2>
-                                </div>
-                                <div class="content">
-                                    <ul>
-                                        <li><a href="#">Lifestyle</a></li>
-                                        <li><a href="#">Creative</a></li>
-                                        <li><a href="#">HTML5</a></li>
-                                        <li><a href="#">Inspiration</a></li>
-                                        <li><a href="#">Motivation</a></li>
-                                        <li><a href="#">PSD</a></li>
-                                        <li><a href="#">Responsive</a></li>
-                                    </ul>
-                                </div>
-                            </div>
+                            @(await Component.InvokeAsync("TagCloud"))
                         </div>
                     </div>
                 </div>

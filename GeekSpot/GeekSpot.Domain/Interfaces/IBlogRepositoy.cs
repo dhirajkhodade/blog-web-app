@@ -12,6 +12,7 @@ namespace GeekSpot.Domain.Interfaces
     {
         Task<Post?> GetByIdAsync(int id);
         Task<IEnumerable<Post>> GetAllAsync();
+        Task<IEnumerable<Tag>> GettagsAsync();
         Task CreateAsync(Post entity);
         Task UpdateAsync(Post entity);
         Task DeleteAsync(Post entity);
