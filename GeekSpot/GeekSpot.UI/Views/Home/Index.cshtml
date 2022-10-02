@@ -30,8 +30,138 @@
         </div>
     </div>
 </div>
+<section class="blog-posts">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="all-blog-posts">
+                    <div class="row">
+                        @foreach (var post in Model.Posts)
+                        {
+                            <div class="col-lg-12">
+                                <div class="blog-post">
+                                    <div class="blog-thumb">
+                                        <img src="assets/images/blog-post-01.jpg" alt="">
+                                    </div>
+                                    <div class="down-content">
+                                        <a href="post-details.html">
+                                            <span>@post.Title</span>
+                                        </a>
+                                        <ul class="post-info">
+                                            <li><a href="#">@($"{@post.Author.Name} {@post.Author.Surname}")</a></li>
+                                            <li><a href="#">@post.PublishedOn.ToString("MMM dd, yyyy") </a></li>
+                                            <li><a href="#">@($"{post.ReadCount} Views")</a></li>
+                                        </ul>
+                                        <p>@post.Content</p>
+                                        <div class="post-options">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <ul class="post-tags">
+                                                        <li><i class="fa fa-tags"></i></li>
+                                                        @foreach (var tag in post.Tags)
+                                                        {
+                                                            <li><a href="#">@tag.Name</a>,</li>
+                                                        }
+                                                    </ul>
+                                                </div>
+                                                <div class="col-6">
+                                                    <ul class="post-share">
+                                                        <li><i class="fa fa-share-alt"></i></li>
+                                                        <li><a href="#">Facebook</a>,</li>
+                                                        <li><a href="#"> Twitter</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="sidebar">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="sidebar-item search">
+                                <form id="search_form" name="gs" method="GET" action="#">
+                                    <input type="text" name="q" class="searchText" placeholder="type to search..." autocomplete="on">
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="sidebar-item recent-posts">
+                                <div class="sidebar-heading">
+                                    <h2>Recent Posts</h2>
+                                </div>
+                                <div class="content" id="recent-posts-component">
+                                    @(await Component.InvokeAsync("RecentPosts"))
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="sidebar-item tags">
+                                <div class="sidebar-heading">
+                                    <h2>Tag Clouds</h2>
+                                </div>
+                                <div class="content">
+                                    <ul>
+                                        <li><a href="#">Lifestyle</a></li>
+                                        <li><a href="#">Creative</a></li>
+                                        <li><a href="#">HTML5</a></li>
+                                        <li><a href="#">Inspiration</a></li>
+                                        <li><a href="#">Motivation</a></li>
+                                        <li><a href="#">PSD</a></li>
+                                        <li><a href="#">Responsive</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-<div class="">
+        </div>
+    </div>
+</section>
+
+<button onclick="FetchRecentPosts()" title="Test">Test</button>
+
+@section Scripts
+    {
+    <script>
+        function FetchRecentPosts() {
+            $.ajax({
+                url: '@Url.Action("GetRecentPosts", "Home")',
+                success: function (data) {
+                    //console.log(data);
+                    $("#recent-posts-component").html(data);
+                }
+            })
+        }
+    </script>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*<div class="">
 
 
     @foreach (var post in Model.PopularPosts)
@@ -58,4 +188,4 @@
         </table>
     }
 
-</div>
+</div>*@
