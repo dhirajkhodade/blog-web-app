@@ -9,6 +9,6 @@ namespace GeekSpot.Domain.Interfaces
 {
     public interface IBlogRepositoy: IGenericRepository<Post>
     {
-        Task<IEnumerable<Post>> GetPopularPosts(int count);
+        Task<IEnumerable<Post>> GetPopularPostsAsync(int count);
     }
 }

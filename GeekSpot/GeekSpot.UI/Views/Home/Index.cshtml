@@ -1,8 +1,28 @@
-﻿@{
+﻿@model IndexViewModel
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+    @foreach (var post in Model.PopularPosts)
+    {
+        <table>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Content</th>
+                <th>ReadCount</th>
+            </tr>
+            <tr>
+                <td>@post.Id</td>
+                <td>@post.Title</td>
+                <td>@post.Content</td>
+                <td>@post.ReadCount</td>
+            </tr>
+        </table>
+    }
+
 </div>

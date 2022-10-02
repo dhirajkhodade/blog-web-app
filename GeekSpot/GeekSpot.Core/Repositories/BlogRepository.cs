@@ -15,7 +15,7 @@ namespace GeekSpot.Core.Repositories
         {
 
         }
-        public async Task<IEnumerable<Post>> GetPopularPosts(int count)
+        public async Task<IEnumerable<Post>> GetPopularPostsAsync(int count)
         {
             return await _dbContext.Posts.OrderByDescending(p => p.ReadCount).Take(count).ToListAsync();
         }

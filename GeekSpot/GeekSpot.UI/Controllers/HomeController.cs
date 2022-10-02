@@ -17,8 +17,10 @@ namespace GeekSpot.UI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            await _blogRepository.GetAllAsync();
-            return View();
+            var Posts = new IndexViewModel();
+            Posts.Posts = await _blogRepository.GetAllAsync();
+            Posts.PopularPosts = await _blogRepository.GetPopularPostsAsync(3);
+            return View(Posts);
         }
 
         public IActionResult Privacy()
