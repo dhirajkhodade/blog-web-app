@@ -26,7 +26,7 @@ namespace GeekSpot.UI.Controllers
         public async Task<IActionResult> GetPostsByTag(string name)
         {
             var Posts = new IndexViewModel();
-            Posts.Posts = await _blogRepository.FindAsync(post => post.Tags.Any(t => t.Name == "Docker"));
+            Posts.Posts = await _blogRepository.FindAsync(post => post.Tags.Any(t => t.Name == name));
             Posts.PopularPosts = await _blogRepository.GetPopularPostsAsync(3);
             return View("Index",Posts);
         }

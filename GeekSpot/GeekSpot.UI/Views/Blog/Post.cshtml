@@ -4,7 +4,7 @@
 <!-- Page Content -->
 <!-- Banner Starts Here -->
 <div class="heading-page header-text">
-    <section class="page-heading">
+    <section class="page-heading" style="padding-top:50px;padding-bottom:50px">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -19,7 +19,7 @@
 </div>
 <!-- Banner Ends Here -->
 
-<section class="blog-posts grid-system">
+<section class="blog-posts grid-system" style="margin-top: 25px">
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
@@ -28,7 +28,7 @@
                         <div class="col-lg-12">
                             <div class="blog-post">
                                 <div class="blog-thumb">
-                                    <img src="assets/images/blog-post-02.jpg" alt="">
+                                    <img src="/assets/images/blog-post-02.jpg" alt="">
                                 </div>
                                 <div class="down-content">
                                     <a href="post-details.html">
@@ -49,7 +49,7 @@
                                                     <li><i class="fa fa-tags"></i></li>
                                                     @foreach (var tag in Model.Post.Tags)
                                                     {
-                                                        <li><a href="#">@tag.Name</a>,</li>
+                                                        <li><a href="@Url.Action("GetPostsByTag", "Home" , new { name = tag.Name })">@tag.Name</a>,</li>
                                                     }
                                                 </ul>
                                             </div>
@@ -90,22 +90,7 @@
                             </div>
                         </div>
                         <div class="col-lg-12">
-                            <div class="sidebar-item tags">
-                                <div class="sidebar-heading">
-                                    <h2>Tag Clouds</h2>
-                                </div>
-                                <div class="content">
-                                    <ul>
-                                        <li><a href="#">Lifestyle</a></li>
-                                        <li><a href="#">Creative</a></li>
-                                        <li><a href="#">HTML5</a></li>
-                                        <li><a href="#">Inspiration</a></li>
-                                        <li><a href="#">Motivation</a></li>
-                                        <li><a href="#">PSD</a></li>
-                                        <li><a href="#">Responsive</a></li>
-                                    </ul>
-                                </div>
-                            </div>
+                            @(await Component.InvokeAsync("TagCloud"))
                         </div>
                     </div>
                 </div>

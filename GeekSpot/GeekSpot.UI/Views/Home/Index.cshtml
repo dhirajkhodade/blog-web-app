@@ -7,11 +7,11 @@
 <!-- Banner Starts Here -->
 <div class="main-banner header-text">
     <div class="container-fluid">
-        <div class="owl-banner owl-carousel">
+        <div class="owl-banner owl-carousel" style="padding-top: 0px">
             @foreach (var post in Model.PopularPosts)
             {
                 <div class="item">
-                    <img src="assets/images/banner-item-01.jpg" alt="">
+                    <img src="/assets/images/banner-item-01.jpg" alt="">
                     <div class="item-content">
                         <div class="main-content">
                             <div class="meta-category">
@@ -19,7 +19,6 @@
                                 <span>@post.Title</span>
                                 </a>
                             </div>
-                            @*<a href="post-details.html"><h4>Morbi dapibus condimentum</h4></a>*@
                             <ul class="post-info">
                                 <li><a href="#">@($"{@post.Author.Name} {@post.Author.Surname}")</a></li>
                                 <li><a href="#">@post.PublishedOn.ToString("MMM dd, yyyy")</a></li>
@@ -43,7 +42,7 @@
                             <div class="col-lg-12">
                                 <div class="blog-post">
                                     <div class="blog-thumb">
-                                        <img src="assets/images/blog-post-01.jpg" alt="">
+                                        <img src="/assets/images/blog-post-01.jpg" alt="">
                                     </div>
                                     <div class="down-content">
                                         <a href="@Url.Action("Post", "Blog" , new { id= post.Id })">
@@ -62,7 +61,7 @@
                                                         <li><i class="fa fa-tags"></i></li>
                                                         @foreach (var tag in post.Tags)
                                                         {
-                                                            <li><a href="#">@tag.Name</a>,</li>
+                                                            <li><a href="@Url.Action("GetPostsByTag", "Home" , new { name = tag.Name })">@tag.Name</a>,</li>
                                                         }
                                                     </ul>
                                                 </div>
@@ -113,7 +112,7 @@
     </div>
 </section>
 
-<button onclick="FetchRecentPosts()" title="Test">Test</button>
+@*<button onclick="FetchRecentPosts()" title="Test">Test</button>*@
 
 @section Scripts
     {
@@ -130,49 +129,3 @@
     </script>
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-@*<div class="">
-
-
-    @foreach (var post in Model.PopularPosts)
-    {
-        <table border="1">
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Content</th>
-                <th>ReadCount</th>
-                <th>Author</th>
-                <th>Tag</th>
-                <th>Image</th>
-            </tr>
-            <tr>
-                <td>@post.Id</td>
-                <td>@post.Title</td>
-                <td>@post.Content</td>
-                <td>@post.ReadCount</td>
-                <td>@post.Author.Name</td>
-                <td>@post.Tags[0].Name</td>
-                <th>@post.Images[0].Uri</th>
-            </tr>
-        </table>
-    }
-
-</div>*@

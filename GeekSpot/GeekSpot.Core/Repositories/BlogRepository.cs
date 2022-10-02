@@ -66,7 +66,13 @@ namespace GeekSpot.Core.Repositories
         }
         public async Task<IEnumerable<Post>> GetPopularPostsAsync(int count)
         {
-            return await _dbContext.Posts.OrderByDescending(p => p.ReadCount).Take(count).ToListAsync();
+            return await _dbContext.Posts
+                .OrderByDescending(p => p.ReadCount)
+                .Include(post => post.Tags)
+                .Include(post => post.Images)
+                .Include(post => post.Author)
+                .Take(count)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Tag>> GettagsAsync()
