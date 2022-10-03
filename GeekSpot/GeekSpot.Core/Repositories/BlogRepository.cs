@@ -40,19 +40,37 @@ namespace GeekSpot.Core.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Post>> GetAllAsync()
+        public async Task<IEnumerable<Post>> GetAllAsync(bool includeNonPublished=false)
         {
+            if (includeNonPublished)
+            {
+                return await _dbContext.Posts
+                .Include(post => post.Tags)
+                .Include(post => post.Images)
+                .Include(post => post.Author)
+                .ToListAsync();
+            }
             return await _dbContext.Posts
+                .Where(post => post.Published)
                 .Include(post=>post.Tags)
                 .Include(post=>post.Images)
                 .Include(post=>post.Author)
                 .ToListAsync();
         }
 
-        public async Task<Post?> GetByIdAsync(int id)
+        public async Task<Post?> GetByIdAsync(int id, bool includeNonPublished=false)
         {
+            if (includeNonPublished)
+            {
+                return await _dbContext.Posts
+               .Where(post => post.Id == id)
+               .Include(post => post.Tags)
+               .Include(post => post.Images)
+               .Include(post => post.Author)
+               .FirstOrDefaultAsync();
+            }
             return await _dbContext.Posts
-                .Where(post => post.Id == id)
+                .Where(post => post.Id == id && post.Published)
                 .Include(post => post.Tags)
                 .Include(post => post.Images)
                 .Include(post => post.Author)
@@ -67,6 +85,7 @@ namespace GeekSpot.Core.Repositories
         public async Task<IEnumerable<Post>> GetPopularPostsAsync(int count)
         {
             return await _dbContext.Posts
+                .Where(post=>post.Published)
                 .OrderByDescending(p => p.ReadCount)
                 .Include(post => post.Tags)
                 .Include(post => post.Images)
@@ -79,5 +98,7 @@ namespace GeekSpot.Core.Repositories
         {
             return await _dbContext.tags.Distinct().ToListAsync();
         }
+
+       
     }
 }

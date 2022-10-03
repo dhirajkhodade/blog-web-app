@@ -10,8 +10,8 @@ namespace GeekSpot.Domain.Interfaces
 {
     public interface IBlogRepositoy
     {
-        Task<Post?> GetByIdAsync(int id);
-        Task<IEnumerable<Post>> GetAllAsync();
+        Task<Post?> GetByIdAsync(int id, bool includeNonPublished=false);
+        Task<IEnumerable<Post>> GetAllAsync(bool includeNonPublished=false);
         Task<IEnumerable<Tag>> GettagsAsync();
         Task CreateAsync(Post entity);
         Task UpdateAsync(Post entity);

@@ -15,7 +15,7 @@
                     <div class="item-content">
                         <div class="main-content">
                             <div class="meta-category">
-                                <a href="@Url.Action("Post", "Blog" , new { id= post.Id })">
+                                <a href="@Url.Action("PostDetails", "Blog" , new { id= post.Id })">
                                 <span>@post.Title</span>
                                 </a>
                             </div>
@@ -45,7 +45,7 @@
                                         <img src="/assets/images/blog-post-01.jpg" alt="">
                                     </div>
                                     <div class="down-content">
-                                        <a href="@Url.Action("Post", "Blog" , new { id= post.Id })">
+                                        <a href="@Url.Action("PostDetails", "Blog" , new { id= post.Id })">
                                             <span>@post.Title</span>
                                         </a>
                                         <ul class="post-info">

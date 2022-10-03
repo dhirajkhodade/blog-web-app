@@ -4,7 +4,7 @@
     @foreach (var post in Model.RecentPosts)
     {
         <li>
-            <a href="@Url.Action("Post", "Blog" , new { id= post.Id })">
+            <a href="@Url.Action("PostDetails", "Blog" , new { id= post.Id })">
                 <h5>@post.Title</h5>
                 <span>@post.PublishedOn.ToString("MMM dd, yyyy")</span>
             </a>

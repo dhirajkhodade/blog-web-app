@@ -44,9 +44,21 @@
                                 <span class="sr-only">(current)</span>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Login", "Publisher")">Login</a>
-                        </li>
+                       
+                        @{
+                        if (ViewData["_Id"]!= null)
+                        {
+                                <li class="nav-item">
+                                    <a class="nav-link" href="@Url.Action("Logout", "Publisher")">Logout</a>
+                                </li>
+                        }else
+                        {
+                                <li class="nav-item">
+                                    <a class="nav-link" href="@Url.Action("Login", "Publisher")">Login</a>
+                                </li>
+                        }
+                        }
+                       
                     </ul>
                 </div>
             </div>
@@ -82,6 +94,8 @@
     <!-- Bootstrap core JavaScript -->
     <script src="~/vendor/jquery/jquery.min.js"></script>
     <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script src="~/js/tinymce/tinymce.min.js" referrerpolicy="original"></script>
 
     <!-- Additional Scripts -->
     <script src="~/assets/js/custom.js"></script>

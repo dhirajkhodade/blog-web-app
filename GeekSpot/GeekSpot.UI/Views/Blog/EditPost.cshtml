@@ -1,0 +1,60 @@
+﻿@model EditorViewModel
+
+
+<div class="main-banner header-text">
+    <div class="container-fluid">
+        <div class="owl-banner owl-carousel">
+        </div>
+    </div>
+</div>
+
+<section class="blog-posts grid-system">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="all-blog-posts">
+                    <div class="row">
+                        <form enctype="multipart/form-data" action="/Blog/CreatePost" method="post">
+                            <div class="mb-3">
+                                <label class="form-label">Title</label>
+                                <input type="text" name="title" id="title" value="@Model.post.Title" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Content</label>
+                                <textarea name="content" id="post-content" class="form-control">
+                                    @Html.Raw(Model.post.Content)
+                                </textarea>
+                            </div>
+                            <div class="btn-group" style="margin-top:20px;">
+                                <button type="submit" class="btn btn-primary">Create Post</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script>
+        tinymce.init({
+            selector: 'textarea#post-content',
+            plugins: [
+                'advlist', 'autolink', 'link', 'image', 'lists', 'charmap', 'preview', 'anchor', 'pagebreak',
+                'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'code', 'fullscreen', 'insertdatetime',
+                'media', 'table', 'emoticons', 'template', 'help'
+            ],
+            toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | ' +
+                'bullist numlist outdent indent | link image | print preview media fullscreen | ' +
+                'forecolor backcolor emoticons | help',
+            menu: {
+                favs: { title: 'My Favorites', items: 'code visualaid | searchreplace | emoticons' }
+            },
+            menubar: 'favs file edit view insert format tools table help',
+            content_css: 'css/content.css',
+            images_upload_url: '/Blog/UploadImage'
+        });
+
+    </script>
+}
