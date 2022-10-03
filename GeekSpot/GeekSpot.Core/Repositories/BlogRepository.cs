@@ -75,13 +75,53 @@ namespace GeekSpot.Core.Repositories
                 .Include(post => post.Images)
                 .Include(post => post.Author)
                 .FirstOrDefaultAsync();
+
         }
 
         public async Task UpdateAsync(Post entity)
         {
-            _dbContext.Posts.Update(entity);
-            await _dbContext.SaveChangesAsync();
+            var existingPost = _dbContext.Posts
+                    .Where(p => p.Id == entity.Id)
+                    .Include(p => p.Tags)
+                    .SingleOrDefault();
+
+            if (existingPost != null)
+            {
+                _dbContext.Entry(existingPost).CurrentValues.SetValues(entity);
+
+                // Delete tags
+                foreach (var existingTags in existingPost.Tags.ToList())
+                {
+                    if (!entity.Tags.Any(t => t.Name.ToLower() == existingTags.Name.ToLower()))
+                        _dbContext.tags.Remove(existingTags);
+                }
+
+                // Update and Insert tags
+                foreach (var newTag in entity.Tags)
+                {
+                    var existingTag = existingPost.Tags
+                        .Where(t => t.Name.ToLower() == newTag.Name.ToLower())
+                        .SingleOrDefault();
+
+                    if (existingTag != null)
+                        // Update tag
+                        _dbContext.Entry(existingTag).CurrentValues.SetValues(newTag);
+                    else
+                    {
+                        // Insert new tag
+                        var newTagToInsert = new Tag()
+                        {
+                            Name = newTag.Name
+                        };
+                        existingPost.Tags.Add(newTagToInsert);
+                    }
+                }
+
+                //_dbContext.Posts.Update(entity);
+                await _dbContext.SaveChangesAsync();
+            }
         }
+
         public async Task<IEnumerable<Post>> GetPopularPostsAsync(int count)
         {
             return await _dbContext.Posts

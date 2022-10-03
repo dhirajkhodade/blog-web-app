@@ -4,6 +4,6 @@ namespace GeekSpot.UI.Models
 {
     public class EditorViewModel
     {
-        public Post post { get; set; }
+        public Post Post { get; set; }
     }
 }

@@ -53,7 +53,11 @@
                                             <li><a href="#">@post.PublishedOn.ToString("MMM dd, yyyy") </a></li>
                                             <li><a href="#">@($"{post.ReadCount} Views")</a></li>
                                         </ul>
-                                        <p>@post.Content</p>
+                                        <hr />
+                                        <p>
+                                            @Html.Raw(post.Content)
+                                        </p>
+                                        <hr />
                                         <div class="post-options">
                                             <div class="row">
                                                 <div class="col-6">

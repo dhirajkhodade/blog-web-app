@@ -31,7 +31,7 @@
                                     <img src="/assets/images/blog-post-02.jpg" alt="">
                                 </div>
                                 <div class="down-content">
-                                    <a href="post-details.html">
+                                    <a href="@Url.Action("PostDetails", "Blog" , new { id= Model.Post.Id })">
                                         <span>@Model.Post.Title</span>
                                     </a>
                                     <ul class="post-info">
@@ -39,9 +39,11 @@
                                         <li><a href="#">@Model.Post.PublishedOn.ToString("MMM dd, yyyy")</a></li>
                                         <li><a href="#">@($"{Model.Post.ReadCount} Views")</a></li>
                                     </ul>
+                                    <hr />
                                     <p>
-                                        @Model.Post.Content                                        
+                                        @Html.Raw(Model.Post.Content)
                                     </p>
+                                    <hr />
                                     <div class="post-options">
                                         <div class="row">
                                             <div class="col-6">

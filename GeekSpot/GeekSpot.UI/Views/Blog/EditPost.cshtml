@@ -9,37 +9,82 @@
 </div>
 
 <section class="blog-posts grid-system">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="all-blog-posts">
-                    <div class="row">
-                        <form enctype="multipart/form-data" action="/Blog/CreatePost" method="post">
+    <form enctype="multipart/form-data" action="/Blog/UpdatePost" method="post">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10">
+                    <div class="all-blog-posts">
+                        <div class="row">
                             <div class="mb-3">
                                 <label class="form-label">Title</label>
-                                <input type="text" name="title" id="title" value="@Model.post.Title" class="form-control">
+                                <input style="width:410%" type="text" name="Post.Title" id="title" value="@Model.Post.Title" class="form-control">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Content</label>
-                                <textarea name="content" id="post-content" class="form-control">
-                                    @Html.Raw(Model.post.Content)
+                                <textarea name="Post.Content" id="post-content" class="form-control">
+                                    @Html.Raw(Model.Post.Content)
                                 </textarea>
                             </div>
-                            <div class="btn-group" style="margin-top:20px;">
-                                <button type="submit" class="btn btn-primary">Create Post</button>
+                            <div>
+                                @Html.HiddenFor(p=>Model.Post.Published)
+                                @Html.HiddenFor(p=>Model.Post.PublishedOn)
+                                @Html.HiddenFor(p=>Model.Post.CreatedOn)
+                                @Html.HiddenFor(p=>Model.Post.LastModifiedOn)
+                                @Html.HiddenFor(p=>Model.Post.Author.Name)
+                                @Html.HiddenFor(p=>Model.Post.Author.Surname)
+                                @Html.HiddenFor(p=>Model.Post.Author.Description)
+                                @Html.HiddenFor(p=>Model.Post.Author.Id)
+                                @Html.HiddenFor(p=>Model.Post.ReadCount)
+                                @Html.HiddenFor(p=>Model.Post.Id)
+
+                                @for (var i=0; i< Model.Post.Tags.Count();i++)
+                                {
+                                    @Html.HiddenFor(t=>Model.Post.Tags[i].Id)
+                                    @Html.HiddenFor(t=>Model.Post.Tags[i].Name)
+                                }
+
                             </div>
-                        </form>
+                            <div class="btn-group mb-3" style="margin-top:20px;">
+                                <button type="submit" class="btn btn-primary">Update Post</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="sidebar">
+                        <div class="row">
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                            <div class="col-lg-12">
+                            </div>
+                            <div class="col-lg-12">
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="sidebar-item recent-posts">
+                                    <div class="sidebar-heading">
+                                        <h2>Post Tags</h2>
+                                        <textarea rows="4" cols="25" name="tags">@(String.Join(",", Model.Post.Tags.Select(t => t.Name)))</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
 </section>
 
 @section Scripts{
     <script>
         tinymce.init({
             selector: 'textarea#post-content',
+            height: 500,
+            forced_root_block: 'p',
             plugins: [
                 'advlist', 'autolink', 'link', 'image', 'lists', 'charmap', 'preview', 'anchor', 'pagebreak',
                 'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'code', 'fullscreen', 'insertdatetime',
