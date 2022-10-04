@@ -417,7 +417,7 @@ header .navbar {
 	border-bottom: 1px solid #eee;
 }
 
-.blog-posts .down-content span {
+.blog-posts .down-content a span {
 	font-size: 18px;
 	text-transform: uppercase;
 	letter-spacing: 0.5px;

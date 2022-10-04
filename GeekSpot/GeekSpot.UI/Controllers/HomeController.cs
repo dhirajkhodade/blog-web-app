@@ -4,6 +4,7 @@ using GeekSpot.UI.Models;
 using GeekSpot.UI.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Hosting;
 using System.Diagnostics;
 using System.Xml.Linq;
 
@@ -23,17 +24,23 @@ namespace GeekSpot.UI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var Posts = new IndexViewModel();
-            Posts.Posts = await _blogRepository.GetAllAsync();
-            Posts.PopularPosts = await _blogRepository.GetPopularPostsAsync(4);
-            return View(Posts);
+            var originalPosts = await _blogRepository.GetAllAsync();
+            var posts = new IndexViewModel();
+
+            if (originalPosts != null)
+            {
+                posts.Posts = Helper.GetTruncatedTextFromHtml(originalPosts, 400);
+                posts.PopularPosts = await _blogRepository.GetPopularPostsAsync(4);
+            }
+            return View(posts);
         }
         public async Task<IActionResult> GetPostsByTag(string name)
         {
-            var Posts = new IndexViewModel();
-            Posts.Posts = await _blogRepository.FindAsync(post => post.Tags.Any(t => t.Name == name));
-            Posts.PopularPosts = await _blogRepository.GetPopularPostsAsync(4);
-            return View("Index",Posts);
+            var posts = new IndexViewModel();
+            var originalPosts = await _blogRepository.FindAsync(post => post.Tags.Any(t => t.Name == name));
+            posts.Posts = Helper.GetTruncatedTextFromHtml(originalPosts, 400);
+            posts.PopularPosts = await _blogRepository.GetPopularPostsAsync(4);
+            return View("Index",posts);
         }
         [HttpPost]
         public async Task<JsonResult> SearchPosts(string searchKeyword)
@@ -53,5 +60,7 @@ namespace GeekSpot.UI.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
     }
 }
