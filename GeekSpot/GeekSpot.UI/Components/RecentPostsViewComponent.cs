@@ -15,7 +15,7 @@ namespace GeekSpot.UI.Components
         {
             var RecentPosts = await _blogRepository.GetAllAsync();
             var RecentPostsVm = new RecentPostsViewModel();
-            RecentPostsVm.RecentPosts = RecentPosts;
+            RecentPostsVm.RecentPosts = RecentPosts.Take(3);
             return View(RecentPostsVm);
         }
     }

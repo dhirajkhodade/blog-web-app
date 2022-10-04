@@ -1,6 +1,7 @@
 using GeekSpot.Core;
 using GeekSpot.Core.Repositories;
 using GeekSpot.Domain.Interfaces;
+using GeekSpot.UI.Utilities;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,7 +13,10 @@ builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options => {
     options.IdleTimeout = TimeSpan.FromMinutes(60);
 });
+
+
 builder.Services.AddControllersWithViews();
+builder.Services.AddSignalR();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(c => c.LoginPath = "/account/login");
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -46,5 +50,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapHub<NotificationHub>("/notificationHub");
 
 app.Run();

@@ -27,13 +27,14 @@
                         <div class="main-content">
                             <div class="meta-category">
                                 <a href="@Url.Action("PostDetails", "Blog" , new { id= post.Id })">
-                                    <span>@post.Title</span>
+                                    <h4>@post.Title</h4>
                                 </a>
                             </div>
                             <ul class="post-info">
                                 <li><a href="#">@($"{@post.Author.Name} {@post.Author.Surname}")</a></li>
                                 <li><a href="#">@post.PublishedOn?.ToString("MMM dd, yyyy")</a></li>
                                 <li><a href="#">@($"{post.ReadCount} Views")</a></li>
+                                <li><a style="color:#f48840" href="#">Popular Post</a></li>
                             </ul>
                         </div>
                     </div>
@@ -127,5 +128,8 @@
     </div>
 </section>
 
+@*<div class="alert alert-warning alert-dismissible fade show" role="alert"><strong>New post published.</strong> Check it out!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>*@
 
-
+@section Scripts {
+    <script src="~/js/notification.js"></script>
+}

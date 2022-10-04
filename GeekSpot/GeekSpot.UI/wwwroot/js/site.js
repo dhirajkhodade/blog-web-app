@@ -27,11 +27,3 @@ function redirect(id) {
     window.location.href = '/Blog/PostDetails/' + id;
 }
 
-function FetchRecentPosts() {
-    $.ajax({
-        url: '@Url.Action("GetRecentPosts", "Home")',
-        success: function (data) {
-            $("#recent-posts-component").html(data);
-        }
-    })
-}

@@ -4,20 +4,23 @@ using GeekSpot.UI.Models;
 using GeekSpot.UI.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using NuGet.Packaging;
 
 namespace GeekSpot.UI.Controllers
 {
     public class BlogController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<BlogController> _logger;
         private readonly IBlogRepositoy _blogRepository;
         private readonly IWebHostEnvironment _env;
-        public BlogController(ILogger<HomeController> logger, IBlogRepositoy blogRepositoy, IWebHostEnvironment env)
+        private readonly IHubContext<NotificationHub> _notificationHub;
+        public BlogController(ILogger<BlogController> logger, IBlogRepositoy blogRepositoy, IWebHostEnvironment env, IHubContext<NotificationHub> hubContext)
         {
             _logger = logger;
             _blogRepository = blogRepositoy;
             _env = env;
+            _notificationHub = hubContext;
         }
         public async Task<IActionResult> PostDetails(int id)
         {
@@ -51,6 +54,9 @@ namespace GeekSpot.UI.Controllers
             post.ReadCount = 0;
             post.Tags.AddRange(tags.Split(',').ToList().Select(a=> new Tag() { Name = a }));
             await _blogRepository.CreateAsync(post);
+
+            await _notificationHub.Clients.All.SendAsync("PostPublish", "New post published. Check it out!");
+
             return RedirectToAction("UserDashBoard", "Publisher");
         }
         [Authorize]
@@ -69,6 +75,7 @@ namespace GeekSpot.UI.Controllers
             post.PublishedOn = DateTime.Now;
             post.LastModifiedOn =DateTime.Now;
             await _blogRepository.UpdateAsync(post);
+            await _notificationHub.Clients.All.SendAsync("PostPublish", "New post published. Check it out!");
             return RedirectToAction("UserDashBoard", "Publisher");
         }
 
@@ -79,6 +86,7 @@ namespace GeekSpot.UI.Controllers
             post.Published = false;
             post.LastModifiedOn = DateTime.Now;
             await _blogRepository.UpdateAsync(post);
+            await _notificationHub.Clients.All.SendAsync("PostUnPublish");
             return RedirectToAction("UserDashBoard", "Publisher");
         }
 

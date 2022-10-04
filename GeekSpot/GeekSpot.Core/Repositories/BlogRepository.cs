@@ -53,6 +53,7 @@ namespace GeekSpot.Core.Repositories
             if (includeNonPublished)
             {
                 return await _dbContext.Posts
+                .OrderByDescending(p => p.PublishedOn)
                 .Include(post => post.Tags)
                 .Include(post => post.Images)
                 .Include(post => post.Author)
@@ -60,6 +61,7 @@ namespace GeekSpot.Core.Repositories
             }
             return await _dbContext.Posts
                 .Where(post => post.Published)
+                .OrderByDescending(p=>p.PublishedOn)
                 .Include(post=>post.Tags)
                 .Include(post=>post.Images)
                 .Include(post=>post.Author)
