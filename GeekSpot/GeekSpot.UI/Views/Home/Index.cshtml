@@ -21,7 +21,7 @@
                             </div>
                             <ul class="post-info">
                                 <li><a href="#">@($"{@post.Author.Name} {@post.Author.Surname}")</a></li>
-                                <li><a href="#">@post.PublishedOn.ToString("MMM dd, yyyy")</a></li>
+                                <li><a href="#">@post.PublishedOn?.ToString("MMM dd, yyyy")</a></li>
                                 <li><a href="#">@($"{post.ReadCount} Views")</a></li>
                             </ul>
                         </div>
@@ -50,7 +50,7 @@
                                         </a>
                                         <ul class="post-info">
                                             <li><a href="#">@($"{@post.Author.Name} {@post.Author.Surname}")</a></li>
-                                            <li><a href="#">@post.PublishedOn.ToString("MMM dd, yyyy") </a></li>
+                                            <li><a href="#">@post.PublishedOn?.ToString("MMM dd, yyyy") </a></li>
                                             <li><a href="#">@($"{post.ReadCount} Views")</a></li>
                                         </ul>
                                         <hr />

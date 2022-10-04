@@ -50,7 +50,7 @@ namespace GeekSpot.UI.Controllers
             {
                 ViewBag.Name = HttpContext.Session.GetString(SessionName);
                 ViewData["_Id"] = HttpContext.Session.GetInt32(SessionUserId);
-                var posts = await _blogRepository.GetAllAsync();
+                var posts = await _blogRepository.GetAllAsync(true);
                 return View("Dashboard",posts);
             }
             else

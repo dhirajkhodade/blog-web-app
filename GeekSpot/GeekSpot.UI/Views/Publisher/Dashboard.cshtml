@@ -7,16 +7,19 @@
         </div>
     </div>
 </div>
-<section class="blog-posts grid-system" >
+<section class="blog-posts grid-system" style="margin-top:60px">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
                 <div class="all-blog-posts">
                     <div class="row">
-                        @*@ViewBag.Name*@
                         <p>
-                            @Html.ActionLink("Write", "Create", "Blog")
+                            <input type="button"
+                                   value="Write New Post" class="btn btn-primary"
+                                   onclick="location.href='@Url.Action("CreatePost", "Blog" )'" />
                         </p>
+                        <br/>
+                        <br />
                         <table class="table">
                             <thead>
                                 <tr>
@@ -25,25 +28,35 @@
                                     <th scope="col">@Html.DisplayNameFor(model => model.Published)</th>
                                     <th scope="col">@Html.DisplayNameFor(model => model.CreatedOn)</th>
                                     <th scope="col">@Html.DisplayNameFor(model => model.PublishedOn)</th>
-                                    <th scope="col">@Html.DisplayNameFor(model => model.ReadCount)</th>
+                                    <th scope="col">Views</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @{
-                                    int rowNo = 0;
+                                    int rowNo = 1;
                                 }
                                 @foreach(var post in Model){
                                     <tr>
                                         <th scope="row">@(rowNo++)</th>
                                         <td>@Html.DisplayFor(item => post.Title)</td>
                                         <td>@Html.DisplayFor(item => post.Published)</td>
-                                        <td>@post.CreatedOn.ToString("MMM dd, yyyy")</td>
-                                        <td>@post.PublishedOn.ToString("MMM dd, yyyy")</td>
+                                        <td>@post.CreatedOn?.ToString("MMM dd, yyyy")</td>
+                                        <td>@post.PublishedOn?.ToString("MMM dd, yyyy")</td>
                                         <td>@Html.DisplayFor(item => post.ReadCount)</td>
                                         <td>
                                             @Html.ActionLink("Edit", "EditPost", "Blog", new { id = post.Id }) |
-                                            @Html.ActionLink("View", "PostDetails","Blog", new {  id = post.Id }) |
-                                            @Html.ActionLink("Delete", "DeletePost", "Blog", new { id = post.Id })
+
+                                            @if (!post.Published)
+                                            {
+                                                @Html.ActionLink("View", "UnpublishedPostDetails","Blog", new {  id = post.Id }) 
+                                            }else{
+                                                @Html.ActionLink("View", "PostDetails","Blog", new {  id = post.Id }) 
+                                            }
+                                            |
+                                            @if (!post.Published)
+                                            {
+                                                @Html.ActionLink("Publish", "PublishPost", "Blog", new { id = post.Id },new {@style="color:green" })
+                                            }
                                         </td>
                                     </tr>
                                 }

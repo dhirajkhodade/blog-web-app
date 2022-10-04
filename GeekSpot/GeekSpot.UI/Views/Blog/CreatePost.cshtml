@@ -7,7 +7,7 @@
         </div>
     </div>
 </div>
-<form enctype="multipart/form-data" action="/Blog/UpdatePost" method="post">
+<form enctype="multipart/form-data" action="/Blog/CreateNewPost" method="post">
     <section class="blog-posts grid-system">
         <div class="container">
             <div class="row">
@@ -24,28 +24,8 @@
                                     @Html.Raw(Model.Post.Content)
                                 </textarea>
                             </div>
-                            <div>
-                                @Html.HiddenFor(p=>Model.Post.Published)
-                                @Html.HiddenFor(p=>Model.Post.PublishedOn)
-                                @Html.HiddenFor(p=>Model.Post.CreatedOn)
-                                @Html.HiddenFor(p=>Model.Post.LastModifiedOn)
-                                @Html.HiddenFor(p=>Model.Post.Author.Id)
-                                @Html.HiddenFor(p=>Model.Post.Author.Name)
-                                @Html.HiddenFor(p=>Model.Post.Author.Surname)
-                                @Html.HiddenFor(p=>Model.Post.Author.Description)
-                                @Html.HiddenFor(p=>Model.Post.Author.Id)
-                                @Html.HiddenFor(p=>Model.Post.ReadCount)
-                                @Html.HiddenFor(p=>Model.Post.Id)
-                                @Html.HiddenFor(p=>Model.Post.AuthorId)
-
-                                @for (var i = 0; i < Model.Post.Tags.Count(); i++)
-                                {
-                                    @Html.HiddenFor(t=>Model.Post.Tags[i].Id)
-                                    @Html.HiddenFor(t=>Model.Post.Tags[i].Name)
-                                }
-
+                            <div class="btn-group mb-6" style="margin-top:20px;">
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -77,15 +57,15 @@
         </div>
 
     </section>
-
     <div class="container">
         <div class="row">
             <div class="col-2 col-md-2">
-                <button type="submit" class="btn btn-primary">Update Post</button>
+                <button type="submit" class="btn btn-primary">Create Post</button>
             </div>
-           
+          
         </div>
     </div>
+
 </form>
 @section Scripts{
     <script>

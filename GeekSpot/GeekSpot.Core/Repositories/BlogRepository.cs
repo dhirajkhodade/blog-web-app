@@ -20,7 +20,20 @@ namespace GeekSpot.Core.Repositories
         }
         public async Task CreateAsync(Post entity)
         {
-            _dbContext.Posts.Add(entity);
+            var author = await _dbContext.Authors.FindAsync(1);
+            if (author != null)
+            {
+                author.Posts.Add(entity);
+            }
+            else {
+                entity.Author = new Author() { 
+                    Id = 1,
+                    Name = "Dhiraj",
+                    Surname = "Khodade",
+                    Description = "Software Developer"
+                };
+                _dbContext.Add(entity);
+            }
             await _dbContext.SaveChangesAsync();
         }
 
@@ -69,12 +82,20 @@ namespace GeekSpot.Core.Repositories
                .Include(post => post.Author)
                .FirstOrDefaultAsync();
             }
-            return await _dbContext.Posts
+            var post = await _dbContext.Posts
                 .Where(post => post.Id == id && post.Published)
                 .Include(post => post.Tags)
                 .Include(post => post.Images)
                 .Include(post => post.Author)
                 .FirstOrDefaultAsync();
+            
+            if (post!=null)
+            {
+                post.ReadCount += 1;
+                await UpdateAsync(post);
+            }
+
+            return post;
 
         }
 
@@ -83,6 +104,7 @@ namespace GeekSpot.Core.Repositories
             var existingPost = _dbContext.Posts
                     .Where(p => p.Id == entity.Id)
                     .Include(p => p.Tags)
+                    .Include(p=> p.Author)
                     .SingleOrDefault();
 
             if (existingPost != null)
@@ -117,7 +139,6 @@ namespace GeekSpot.Core.Repositories
                     }
                 }
 
-                //_dbContext.Posts.Update(entity);
                 await _dbContext.SaveChangesAsync();
             }
         }

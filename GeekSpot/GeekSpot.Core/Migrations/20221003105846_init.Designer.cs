@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GeekSpot.Core.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221003004146_init")]
+    [Migration("20221003105846_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -75,16 +75,16 @@ namespace GeekSpot.Core.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("CreatedOn")
+                    b.Property<DateTime?>("CreatedOn")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("LastModifiedOn")
+                    b.Property<DateTime?>("LastModifiedOn")
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("Published")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("PublishedOn")
+                    b.Property<DateTime?>("PublishedOn")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("ReadCount")
@@ -145,7 +145,7 @@ namespace GeekSpot.Core.Migrations
             modelBuilder.Entity("GeekSpot.Domain.Entities.Post", b =>
                 {
                     b.HasOne("GeekSpot.Domain.Entities.Author", "Author")
-                        .WithMany("Posts")
+                        .WithMany()
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -166,11 +166,6 @@ namespace GeekSpot.Core.Migrations
                         .HasForeignKey("TagsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("GeekSpot.Domain.Entities.Author", b =>
-                {
-                    b.Navigation("Posts");
                 });
 
             modelBuilder.Entity("GeekSpot.Domain.Entities.Post", b =>

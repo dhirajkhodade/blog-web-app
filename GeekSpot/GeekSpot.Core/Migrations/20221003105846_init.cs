@@ -47,9 +47,9 @@ namespace GeekSpot.Core.Migrations
                     Content = table.Column<string>(type: "TEXT", nullable: false),
                     ReadCount = table.Column<int>(type: "INTEGER", nullable: false),
                     Published = table.Column<bool>(type: "INTEGER", nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    PublishedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    LastModifiedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    PublishedOn = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    LastModifiedOn = table.Column<DateTime>(type: "TEXT", nullable: true),
                     AuthorId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
