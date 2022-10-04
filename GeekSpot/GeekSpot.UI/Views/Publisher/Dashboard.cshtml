@@ -42,7 +42,7 @@
                                         <td>@Html.DisplayFor(item => post.Published)</td>
                                         <td>@post.CreatedOn?.ToString("MMM dd, yyyy")</td>
                                         <td>@post.PublishedOn?.ToString("MMM dd, yyyy")</td>
-                                        <td>@Html.DisplayFor(item => post.ReadCount)</td>
+                                        <td id="post-views-@post.Id">@Html.DisplayFor(item => post.ReadCount)</td>
                                         <td>
                                             @Html.ActionLink("Edit", "EditPost", "Blog", new { id = post.Id }) |
 
@@ -71,3 +71,8 @@
         </div>
     </div>
 </section>
+
+
+@section Scripts {
+    <script src="~/js/notification.js"></script>
+}

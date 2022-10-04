@@ -7,7 +7,6 @@
     })
 }
 
-
 var connection = new signalR.HubConnectionBuilder().withUrl("/notificationHub").build();
 connection.start();
 connection.on("PostPublish", function (msg) {
@@ -22,4 +21,19 @@ connection.on("PostPublish", function (msg) {
 connection.on("PostUnPublish", function () {
     fetchRecentPosts()
 });
+
+connection.on("PostViewed", function (msg) {
+    var anchors = document.querySelectorAll("#post-views-" + msg.postid);
+    anchors.forEach(function (a) {
+        a.text = msg.views;
+    });
+
+    var tds = document.querySelectorAll("td#post-views-" + msg.postid);
+    tds.forEach(function (td) {
+        td.innerHTML = msg.views;
+    });
+
+});
+
+
 

@@ -37,7 +37,7 @@
                                     <ul class="post-info">
                                         <li><a href="#">@($"{@Model.Post.Author.Name} {@Model.Post.Author.Surname}")</a></li>
                                         <li><a href="#">@Model.Post.PublishedOn?.ToString("MMM dd, yyyy")</a></li>
-                                        <li><a href="#">@($"{Model.Post.ReadCount} Views")</a></li>
+                                        <li><a id="post-views-@Model.Post.Id" href="#">@($"{Model.Post.ReadCount} Views")</a></li>
                                     </ul>
                                     <hr />
                                     <p>

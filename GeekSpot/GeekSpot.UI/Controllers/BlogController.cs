@@ -25,6 +25,7 @@ namespace GeekSpot.UI.Controllers
         public async Task<IActionResult> PostDetails(int id)
         {
             var post = await _blogRepository.GetByIdAsync(id);
+            await _notificationHub.Clients.All.SendAsync("PostViewed", new { postid = post?.Id, views = post?.ReadCount });
             return View(new PostViewModel() { Post = post ?? new Post() });
         }
         [Authorize]
@@ -54,9 +55,7 @@ namespace GeekSpot.UI.Controllers
             post.ReadCount = 0;
             post.Tags.AddRange(tags.Split(',').ToList().Select(a=> new Tag() { Name = a }));
             await _blogRepository.CreateAsync(post);
-
             await _notificationHub.Clients.All.SendAsync("PostPublish", "New post published. Check it out!");
-
             return RedirectToAction("UserDashBoard", "Publisher");
         }
         [Authorize]
@@ -97,7 +96,7 @@ namespace GeekSpot.UI.Controllers
             return Json(new { location });
 
         }
-        private static void PrepareTags(Post post, string tags)
+        private void PrepareTags(Post post, string tags)
         {
             HashSet<string> newTags = new HashSet<string>(tags.Split(',').Select(tag => tag.ToLower()));
             post.Tags.RemoveAll(currentTag => !newTags.Contains(currentTag.Name.ToLower()));
