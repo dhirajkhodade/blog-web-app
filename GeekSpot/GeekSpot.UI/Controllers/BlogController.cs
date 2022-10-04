@@ -67,6 +67,17 @@ namespace GeekSpot.UI.Controllers
             var post = await _blogRepository.GetByIdAsync(id, true);
             post.Published = true;
             post.PublishedOn = DateTime.Now;
+            post.LastModifiedOn =DateTime.Now;
+            await _blogRepository.UpdateAsync(post);
+            return RedirectToAction("UserDashBoard", "Publisher");
+        }
+
+        [Authorize]
+        public async Task<IActionResult> UnPublishPost(int id)
+        {
+            var post = await _blogRepository.GetByIdAsync(id, true);
+            post.Published = false;
+            post.LastModifiedOn = DateTime.Now;
             await _blogRepository.UpdateAsync(post);
             return RedirectToAction("UserDashBoard", "Publisher");
         }

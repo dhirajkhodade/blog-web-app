@@ -28,7 +28,7 @@
                         <div class="col-lg-12">
                             <div class="blog-post">
                                 <div class="blog-thumb">
-                                    <img src="/assets/images/blog-post-02.jpg" alt="">
+                                    <img src="/assets/images/post-top-decorator.jpg" alt="">
                                 </div>
                                 <div class="down-content">
                                     <a href="@Url.Action("PostDetails", "Blog" , new { id= Model.Post.Id })">
@@ -77,7 +77,7 @@
                         <div class="col-lg-12">
                             <div class="sidebar-item search">
                                 <form id="search_form" name="gs" method="GET" action="#">
-                                    <input type="text" name="q" class="searchText" placeholder="type to search..." autocomplete="on">
+                                    <input type="text" id="postSearch" name="Title" class="searchText" placeholder="type to search...">
                                 </form>
                             </div>
                         </div>

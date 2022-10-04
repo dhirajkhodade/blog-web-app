@@ -56,6 +56,8 @@
                                             @if (!post.Published)
                                             {
                                                 @Html.ActionLink("Publish", "PublishPost", "Blog", new { id = post.Id },new {@style="color:green" })
+                                            }else{
+                                                @Html.ActionLink("UnPublish", "UnPublishPost", "Blog", new { id = post.Id },new {@style="color:red" })
                                             }
                                         </td>
                                     </tr>

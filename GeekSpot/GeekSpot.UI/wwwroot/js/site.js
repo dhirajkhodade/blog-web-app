@@ -1,4 +1,37 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿$(document).ready(function () {
+    $("#postSearch").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                url: "/Home/SearchPosts",
+                type: "POST",
+                dataType: "json",
+                data: { searchKeyword: request.term },
+                success: function (data) {
+                    response($.map(data, function (item) {
+                        return { label: item.title, value: item.title, id: item.id };
+                    }))
 
-// Write your JavaScript code.
+                }
+            })
+        },
+        select: function (event, ui) {
+            redirect(ui.item.id);
+        },
+        messages: {
+            noResults: "", results: function (resultsCount) { }
+        }
+    });
+})
+
+function redirect(id) {
+    window.location.href = '/Blog/PostDetails/' + id;
+}
+
+function FetchRecentPosts() {
+    $.ajax({
+        url: '@Url.Action("GetRecentPosts", "Home")',
+        success: function (data) {
+            $("#recent-posts-component").html(data);
+        }
+    })
+}

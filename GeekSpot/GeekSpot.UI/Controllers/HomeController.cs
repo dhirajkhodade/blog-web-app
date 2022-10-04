@@ -3,6 +3,7 @@ using GeekSpot.Domain.Interfaces;
 using GeekSpot.UI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Xml.Linq;
 
 namespace GeekSpot.UI.Controllers
 {
@@ -30,6 +31,14 @@ namespace GeekSpot.UI.Controllers
             Posts.PopularPosts = await _blogRepository.GetPopularPostsAsync(3);
             return View("Index",Posts);
         }
+        [HttpPost]
+        public async Task<JsonResult> SearchPosts(string searchKeyword)
+        {
+            var post = await _blogRepository.FindAsync(p=>p.Title.ToLower().Contains(searchKeyword.ToLower()) && p.Published );
+            var result = post.Select(p=> new { p.Title , p.Id });
+            return Json(result);
+        }
+
         public IActionResult GetRecentPosts()
         {
             return ViewComponent("RecentPosts");
