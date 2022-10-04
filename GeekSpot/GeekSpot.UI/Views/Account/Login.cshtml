@@ -1,30 +1,39 @@
-﻿@model User
+﻿@model LoginModel
 @{
     Layout = null;
 }
 
 <div id="login-form-wrap">
     <h2>Login</h2>
-    @using (Html.BeginForm("Login", "Publisher", FormMethod.Post))
+    @using (Html.BeginForm("Login", "Account", FormMethod.Post))
     {
+        @if (!string.IsNullOrEmpty(ViewBag.Message))
+        {
+            <span class="text-danger">
+                @ViewBag.Message
+            </span>
+        }
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true)
         <p>
-            @*<input type="text" id="UserName" name="username" placeholder="Username" required><i class="validation"><span></span><span></span></i>*@
             @Html.TextBoxFor(u => u.UserName,new { placeholder = "username" , style = "width:70%"  })
-            @Html.ValidationMessageFor(u => u.UserName)
+        
         </p>
+        @Html.ValidationMessageFor(u => u.UserName)
         <p>
-            @*<input type="password" id="Password" name="password" placeholder="Password" required><i class="validation"><span></span><span></span></i>*@
             @Html.PasswordFor(a => a.Password,new { placeholder = "password" , style = "width:70%"})
-            @Html.ValidationMessageFor(a => a.Password)
+            
         </p>
+        @Html.ValidationMessageFor(a => a.Password)
+        
+        <input asp-for="RememberLogin"/> @Html.DisplayNameFor(model=>model.RememberLogin)
+        
         <p>
             <input type="submit" id="login" value="Login" style="width:30%">
         </p>
     }
     <div id="create-account-wrap">
-        <p>Not a member? <a href="#">Create Account</a><p>
+        <p><p>
     </div>
 </div>
 
@@ -86,7 +95,9 @@
         padding: 0 60px;
     }
 
-    input {
+    input[type="text"],
+    input[type="password"],
+    input[type="submit"]{
         display: block;
         box-sizing: border-box;
         width: 100%;

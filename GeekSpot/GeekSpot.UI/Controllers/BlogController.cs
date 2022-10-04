@@ -2,6 +2,7 @@
 using GeekSpot.Domain.Interfaces;
 using GeekSpot.UI.Models;
 using GeekSpot.UI.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Packaging;
 
@@ -23,25 +24,26 @@ namespace GeekSpot.UI.Controllers
             var post = await _blogRepository.GetByIdAsync(id);
             return View(new PostViewModel() { Post = post ?? new Post() });
         }
-
+        [Authorize]
         public async Task<IActionResult> UnpublishedPostDetails(int id)
         {
             var post = await _blogRepository.GetByIdAsync(id,true);
             return View("PostDetails",new PostViewModel() { Post = post ?? new Post() });
         }
-
+        [Authorize]
         public async Task<IActionResult> EditPost(int id)
         {
             var post = await _blogRepository.GetByIdAsync(id,true);
             return View(new EditorViewModel() { Post = post ?? new Post() });
         }
-
+        [Authorize]
         public IActionResult CreatePost()
         {
             return View(new EditorViewModel());
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreateNewPost(Post post, string tags)
         {
             post.PublishedOn = post.Published ? DateTime.Now : null;
@@ -51,7 +53,7 @@ namespace GeekSpot.UI.Controllers
             await _blogRepository.CreateAsync(post);
             return RedirectToAction("UserDashBoard", "Publisher");
         }
-
+        [Authorize]
         public async Task<IActionResult> UpdatePost(Post post, string tags)
         {
             post.LastModifiedOn = DateTime.Now;
@@ -59,7 +61,7 @@ namespace GeekSpot.UI.Controllers
             await _blogRepository.UpdateAsync(post);
             return RedirectToAction("UserDashBoard", "Publisher");
         }
-
+        [Authorize]
         public async Task<IActionResult> PublishPost(int id)
         {
             var post = await _blogRepository.GetByIdAsync(id, true);
@@ -69,7 +71,7 @@ namespace GeekSpot.UI.Controllers
             return RedirectToAction("UserDashBoard", "Publisher");
         }
 
-
+        [Authorize]
         public IActionResult UploadImage(IFormFile file)
         {
             var location = new FileManager(_env).SaveImageToDisk(file);
