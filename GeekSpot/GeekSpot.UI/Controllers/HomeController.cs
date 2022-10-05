@@ -11,12 +11,10 @@ namespace GeekSpot.UI.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IBlogRepositoy _blogRepository;
-        private readonly IHubContext<NotificationHub> _notificationHub;
-        public HomeController(ILogger<HomeController> logger, IBlogRepositoy blogRepositoy, IHubContext<NotificationHub> hubContext)
+        public HomeController(ILogger<HomeController> logger, IBlogRepositoy blogRepositoy)
         {
             _logger = logger;
-            _blogRepository = blogRepositoy;
-            _notificationHub = hubContext;
+            _blogRepository = blogRepositoy;            
         }
 
         public async Task<IActionResult> Index()
