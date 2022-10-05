@@ -19,7 +19,7 @@ __password = password__
 	- Publisher can create and save article without publishing it righaway. 
 	- Edit and create functinality where user can edit or create new article with fully functional TinyMCE rich text editor.
 	- User can publish or unpublish the articles from this dashboard
-- __Realtime notification__
+- __Realtime notification (Make sure you open the app in at least two browser tabs to see realtime notifications in action)__
 	- When users view the article, view count for that article gets updated in realtime to all the other online users.
 	- When publisher publishes new article all the online users gets notification popup in realtime (on right bottom corner of browser).
 	- When publisher publishes new article the recent posts section gets updated in realtime for all the online users without refreshing the webpage.
