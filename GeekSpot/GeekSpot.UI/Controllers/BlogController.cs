@@ -89,7 +89,6 @@ namespace GeekSpot.UI.Controllers
                 post.ReadCount = 0;
                 post.Tags.AddRange(tags.Split(',').ToList().Select(a => new Tag() { Name = a }));
                 await _blogRepository.CreateAsync(post);
-                await _notificationHub.Clients.All.SendAsync("PostPublish", "New post published. Check it out!");
                 return RedirectToAction("UserDashBoard", "Publisher");
             }
             catch (Exception ex)
