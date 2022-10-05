@@ -2,9 +2,14 @@
 
 namespace GeekSpot.UI.Controllers
 {
-    [Route("Error/{statuscode}")]
     public class ErrorController : Controller
     {
+        public IActionResult Index()
+        {
+            ViewData["Error"] = "Something went wrong!";
+            return View("Error");
+        }
+        [Route("Error/{statuscode}")]
         public IActionResult Index(int statuscode)
         {
             switch (statuscode)

@@ -3,6 +3,7 @@ using GeekSpot.UI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace GeekSpot.UI.Controllers
 {
@@ -18,8 +19,17 @@ namespace GeekSpot.UI.Controllers
         [Authorize]
         public async Task<ActionResult> UserDashBoard()
         {
-            var posts = await _blogRepository.GetAllAsync(true);
-            return View("Dashboard", posts);
+            try
+            {
+                var posts = await _blogRepository.GetAllAsync(true);
+                return View("Dashboard", posts);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return RedirectToAction("Error","Error");
+            }
+          
         }
     }
 }

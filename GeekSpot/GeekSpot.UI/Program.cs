@@ -17,6 +17,7 @@ builder.Services.AddSession(options => {
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddSignalR();
+builder.Services.AddWebOptimizer();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(c => c.LoginPath = "/account/login");
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -34,12 +35,14 @@ await db.Database.MigrateAsync();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
+    app.UseExceptionHandler("/Error/Index");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 app.UseStatusCodePagesWithRedirects("/Error/{0}");
 app.UseHttpsRedirection();
+
+app.UseWebOptimizer();
 app.UseStaticFiles();
 app.UseSession();
 app.UseRouting();

@@ -1,12 +1,9 @@
-﻿using GeekSpot.Domain.Entities;
-using GeekSpot.Domain.Interfaces;
+﻿using GeekSpot.Domain.Interfaces;
 using GeekSpot.UI.Models;
 using GeekSpot.UI.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Hosting;
 using System.Diagnostics;
-using System.Xml.Linq;
 
 namespace GeekSpot.UI.Controllers
 {
@@ -24,35 +21,69 @@ namespace GeekSpot.UI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var originalPosts = await _blogRepository.GetAllAsync();
-            var posts = new IndexViewModel();
-
-            if (originalPosts != null)
+            try
             {
-                posts.Posts = Helper.GetTruncatedTextFromHtml(originalPosts, 400);
-                posts.PopularPosts = await _blogRepository.GetPopularPostsAsync(4);
+                var originalPosts = await _blogRepository.GetAllAsync();
+                var posts = new IndexViewModel();
+
+                if (originalPosts != null)
+                {
+                    posts.Posts = Helper.GetTruncatedTextFromHtml(originalPosts, 400);
+                    posts.PopularPosts = await _blogRepository.GetPopularPostsAsync(4);
+                }
+                return View(posts);
             }
-            return View(posts);
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return RedirectToAction("Error", "Error");
+            }
+            
         }
         public async Task<IActionResult> GetPostsByTag(string name)
         {
-            var posts = new IndexViewModel();
-            var originalPosts = await _blogRepository.FindAsync(post => post.Tags.Any(t => t.Name == name));
-            posts.Posts = Helper.GetTruncatedTextFromHtml(originalPosts, 400);
-            posts.PopularPosts = await _blogRepository.GetPopularPostsAsync(4);
-            return View("Index",posts);
+            try
+            {
+                var posts = new IndexViewModel();
+                var originalPosts = await _blogRepository.FindAsync(post => post.Tags.Any(t => t.Name == name));
+                posts.Posts = Helper.GetTruncatedTextFromHtml(originalPosts, 400);
+                posts.PopularPosts = await _blogRepository.GetPopularPostsAsync(4);
+                return View("Index", posts);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return RedirectToAction("Error", "Error");
+            }
+          
         }
         [HttpPost]
         public async Task<JsonResult> SearchPosts(string searchKeyword)
         {
-            var post = await _blogRepository.FindAsync(p=>p.Title.ToLower().Contains(searchKeyword.ToLower()) && p.Published );
-            var result = post.Select(p=> new { p.Title , p.Id });
-            return Json(result);
+            try
+            {
+                var post = await _blogRepository.FindAsync(p => p.Title.ToLower().Contains(searchKeyword.ToLower()) && p.Published);
+                var result = post.Select(p => new { p.Title, p.Id });
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+            }
+            return Json("");
         }
 
         public IActionResult GetRecentPosts()
         {
-            return ViewComponent("RecentPosts");
+            try
+            {
+                return ViewComponent("RecentPosts");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return RedirectToAction("Error", "Error");
+            }
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

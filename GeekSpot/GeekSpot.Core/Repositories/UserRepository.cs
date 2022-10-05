@@ -2,12 +2,7 @@
 using GeekSpot.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GeekSpot.Core.Repositories
 {
@@ -22,9 +17,17 @@ namespace GeekSpot.Core.Repositories
         }
         public async Task<Author?> FindAsync(Expression<Func<Author, bool>> expression)
         {
-            return await _dbContext.Authors
-                .Where(expression)
-                .FirstOrDefaultAsync();
+            try
+            {
+                return await _dbContext.Authors
+                                  .Where(expression)
+                                  .FirstOrDefaultAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                throw;
+            }
         }
     }
 }

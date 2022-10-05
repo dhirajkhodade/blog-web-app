@@ -19,52 +19,76 @@ namespace GeekSpot.UI.Controllers
         }
         public IActionResult Login()
         {
-            return View(new LoginModel());
+            try
+            {
+                return View(new LoginModel());
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return RedirectToAction("Error", "Error");
+            }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginModel loginDetails)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var user = await _userRepository.FindAsync(u => u.Name.ToLower() == loginDetails.UserName.ToLower() && _password == loginDetails.Password);
-                if (user == null)
+                if (ModelState.IsValid)
                 {
-                    ViewBag.Message = "Invalid Credential";
-                    return View(loginDetails);
-                }
-                else
-                {
-                    //create claims
-                    var claims = new List<Claim>() {
-                    new Claim(ClaimTypes.NameIdentifier, Convert.ToString(user.Id)),
-                        new Claim(ClaimTypes.Name, user.Name),
-                        new Claim(ClaimTypes.Surname, user.Surname)
-                        };
-                    //create claims identity
-                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                    //create claims principal    
-                    var principal = new ClaimsPrincipal(identity);
-                    //SignIn
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties()
+                    var user = await _userRepository.FindAsync(u => u.Name.ToLower() == loginDetails.UserName.ToLower() && _password == loginDetails.Password);
+                    if (user == null)
                     {
-                        IsPersistent = loginDetails.RememberLogin
-                    });
-                    HttpContext.Session.SetString("username",loginDetails.UserName);
-                    return RedirectToAction("UserDashBoard", "Publisher");
+                        ViewBag.Message = "Invalid Credential";
+                        return View(loginDetails);
+                    }
+                    else
+                    {
+                        //create claims
+                        var claims = new List<Claim>() {
+                            new Claim(ClaimTypes.NameIdentifier, Convert.ToString(user.Id)),
+                            new Claim(ClaimTypes.Name, user.Name),
+                            new Claim(ClaimTypes.Surname, user.Surname)
+                        };
+                        //create claims identity
+                        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                        //create claims principal    
+                        var principal = new ClaimsPrincipal(identity);
+                        //SignIn
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties()
+                        {
+                            IsPersistent = loginDetails.RememberLogin
+                        });
+                        HttpContext.Session.SetString("username", loginDetails.UserName);
+                        return RedirectToAction("UserDashBoard", "Publisher");
+                    }
                 }
+                return View(loginDetails);
             }
-            return View(loginDetails);
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return RedirectToAction("Error", "Error");
+            }
         }
 
         public async Task<IActionResult> LogOut()
         {
-            //SignOut
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            HttpContext.Session.Clear();
-            //Redirect to landing page
-            return RedirectToAction("Index", "Home");
+            try
+            {
+                //SignOut
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                HttpContext.Session.Clear();
+                //Redirect to landing page
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return RedirectToAction("Error", "Error");
+            }
         }
     }
 }
