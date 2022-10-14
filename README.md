@@ -33,3 +33,4 @@ __password = password__
 - Added few unit tests using XUnit to makesure controller and repository are testable.
 - Used SignalR for realtime notification features
 - Used TinyMCE WYSIWYG rich text editor
+- Html template used - https://templatemo.com/live/templatemo_551_stand_blog
