@@ -1,6 +1,7 @@
 using GeekSpot.Core;
 using GeekSpot.Core.Repositories;
 using GeekSpot.Domain.Interfaces;
+using GeekSpot.UI.Services;
 using GeekSpot.UI.Utilities;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddTransient<IBlogRepositoy, BlogRepository>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<IAppVersionService, AppVersionService>();
 
 var app = builder.Build();
 

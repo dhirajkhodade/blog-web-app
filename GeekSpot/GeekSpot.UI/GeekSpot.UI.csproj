@@ -4,6 +4,9 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+	  <!--yyyy.mm.dd.hr min-->
+	  <!--<Version>2023.05.26.0228</Version>-->
+	  <Version>$([System.DateTime]::UtcNow.ToString("yyyy.MM.dd.hm"))</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GeekSpot.Core\GeekSpot.Core.csproj" />
+    <ProjectReference Include="..\GeekSpot.Domain\GeekSpot.Domain.csproj" />
   </ItemGroup>
 
 </Project>
